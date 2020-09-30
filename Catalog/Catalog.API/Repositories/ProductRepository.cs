@@ -25,9 +25,10 @@ namespace Catalog.API.Repositories
 
         public async Task<bool> Delete(string id)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(p => p.Id, id);
+            //FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(p => p.Id, id);
 
-            DeleteResult deleteResult = await _context.Products.DeleteOneAsync(filter);
+            //DeleteResult deleteResult = await _context.Products.DeleteOneAsync(filter);
+            DeleteResult deleteResult = await _context.Products.DeleteOneAsync(x=>x.Id==id);
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
@@ -43,8 +44,9 @@ namespace Catalog.API.Repositories
 
         public async Task<IEnumerable<Product>> GetProductsByCategory(string categoryName)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(p => p.Category, categoryName);
-            return await _context.Products.Find(filter).ToListAsync();
+            //FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(p => p.Category, categoryName);
+            // return await _context.Products.Find(filter).ToListAsync();
+            return await _context.Products.Find(p => p.Category == categoryName).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetProductsByName(string name)
