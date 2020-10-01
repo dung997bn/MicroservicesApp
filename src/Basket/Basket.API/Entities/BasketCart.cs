@@ -14,7 +14,7 @@ namespace Basket.API.Entities
         }
         public string UserName { get; set; }
 
-        public List<BasketCartItem> Items { get; set; }
+        public List<BasketCartItem> Items { get; set; } = new List<BasketCartItem>();
 
 
         public decimal TotalPrice

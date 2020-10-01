@@ -15,6 +15,11 @@ namespace Basket.API.Controllers
     {
         private readonly IBasketRepository _basketRepository;
 
+        public BasketController(IBasketRepository basketRepository)
+        {
+            _basketRepository = basketRepository;
+        }
+
         [HttpGet]
         public async Task<ActionResult<BasketCart>> GetBasket(string userName)
         {
