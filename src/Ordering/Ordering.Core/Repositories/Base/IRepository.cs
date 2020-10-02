@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ordering.Core.Repositories.Base
 {
-    public interface IRepostitory<T> where T : Entity
+    public interface IRepository<T> where T : Entity
     {
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
