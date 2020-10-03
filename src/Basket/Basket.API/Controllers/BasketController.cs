@@ -82,8 +82,7 @@ namespace Basket.API.Controllers
             {
                 _logger.LogError($"Error check out: {ex.Message}");
                 return BadRequest(ex.Message);
-            }
-           
+            }        
         }
     }
 }

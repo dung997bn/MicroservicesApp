@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
+using EventBusRabbitMQ;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,12 +15,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ordering.API.Extentions;
+using Ordering.API.RabbitMQ;
 using Ordering.Application.Handlers;
 using Ordering.Core.Repositories;
 using Ordering.Core.Repositories.Base;
 using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Repositories;
 using Ordering.Infrastructure.Repositories.Base;
+using RabbitMQ.Client;
 
 namespace Ordering.API
 {
@@ -41,13 +45,34 @@ namespace Ordering.API
                 c.UseSqlServer(Configuration.GetConnectionString("OrderConnection")),
                 ServiceLifetime.Singleton //made singleton this in order to resolve in mediatR when consuming Rabbit
             );
-
-            services.AddTransient<IOrderRepository, OrderRepository>(); //made transient this in order to resolve in mediatR when consuming Rabbit
+       
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+            services.AddTransient<IOrderRepository, OrderRepository>(); //made transient this in order to resolve in mediatR when consuming Rabbit
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(CheckoutOrderHandler).GetTypeInfo().Assembly);
+
+            //RabbitMQ
+            services.AddSingleton<IRabbitMQConnection>(sp =>
+            {
+                var factory = new ConnectionFactory()
+                {
+                    HostName = Configuration["EventBus:HostName"]
+                };
+
+                if (!string.IsNullOrEmpty(Configuration["EventBus:UserName"]))
+                {
+                    factory.UserName = Configuration["EventBus:UserName"];
+                }
+                if (!string.IsNullOrEmpty(Configuration["EventBus:Password"]))
+                {
+                    factory.Password = Configuration["EventBus:Password"];
+                }
+                return new RabbitMQConnection(factory);
+            });
+
+            services.AddSingleton<EventBusRabbitMQConsumer>();
 
             services.AddSwaggerGen(c =>
             {
@@ -73,6 +98,8 @@ namespace Ordering.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseRabbitMQListener();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
