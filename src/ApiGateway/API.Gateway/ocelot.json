@@ -46,7 +46,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "Catalog/GetProductsByName/{name}",
+      "UpstreamPathTemplate": "/Catalog/GetProductsByName/{name}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     //Basket API
