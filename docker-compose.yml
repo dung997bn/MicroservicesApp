@@ -39,3 +39,10 @@ services:
             context: .
             dockerfile: src/ApiGateway/API.Gateway/Dockerfile
 
+
+    aspnetwebmvc:
+        image: ${DOCKER_REGISTRY-}aspnetwebmvc
+        build:
+            context: .
+            dockerfile: src/WebApp/AspnetWebMvc/Dockerfile
+

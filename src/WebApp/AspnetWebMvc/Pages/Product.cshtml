@@ -27,7 +27,7 @@
 
                     @foreach (var category in Model.CategoryList)
                     {
-                        <li class="list-group-item"><a asp-page="Product" asp-route-categoryId="@category.Id">@category.Name</a></li>
+                        <li class="list-group-item"><a asp-page="Product" asp-route-categoryId="@category">@category</a></li>
                     }
 
                 </ul>
@@ -36,10 +36,10 @@
             <div class="card bg-light mb-3">
                 <div class="card-header bg-success text-white text-uppercase">Last product</div>
                 <div class="card-body">
-                    <img asp-append-version="true" class="img-fluid" src="~/images/product/@Model.ProductList.LastOrDefault().ImageFile" />
-                    <h5 class="card-title">@Model.ProductList.LastOrDefault().Name</h5>
-                    <p class="card-text">@Model.ProductList.LastOrDefault().Summary</p>
-                    <p class="bloc_left_price">@Model.ProductList.LastOrDefault().Price $</p>
+                    <img asp-append-version="true" class="img-fluid" src="~/images/product/@Model.CatalogList.LastOrDefault().ImageFile" />
+                    <h5 class="card-title">@Model.CatalogList.LastOrDefault().Name</h5>
+                    <p class="card-text">@Model.CatalogList.LastOrDefault().Summary</p>
+                    <p class="bloc_left_price">@Model.CatalogList.LastOrDefault().Price $</p>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
         <div class="col">
             <div class="row">
                 
-                    @foreach (var product in Model.ProductList)
+                    @foreach (var product in Model.CatalogList)
                     {
                         <div class="col-12 col-md-6 col-lg-4">
                             <partial name="_ProductItemPartial" model="@product" />

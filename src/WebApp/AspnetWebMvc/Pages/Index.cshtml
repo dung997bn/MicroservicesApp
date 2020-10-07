@@ -31,9 +31,7 @@
                 </a>
             </div>
         </div>
-
-        <partial name="_TopProductPartial" model="Model.ProductList.FirstOrDefault()" />       
-
+        <partial name="_TopProductPartial" model="Model.CatalogList.FirstOrDefault()" />       
     </div>
 </div>
 
@@ -47,13 +45,12 @@
                 <div class="card-body">
                     <div class="row">
 
-                        @foreach (var product in Model.ProductList.Take(4))
+                        @foreach (var catalog in Model.CatalogList.Take(4))
                         {
                             <div class="col-sm">
-                                <partial name="_ProductItemPartial" model="@product" />
+                                <partial name="_ProductItemPartial" model="@catalog" />
                             </div>
                         }
-
                     </div>
                 </div>
             </div>
@@ -71,13 +68,12 @@
                 <div class="card-body">
                     <div class="row">
                         
-                            @foreach (var product in Model.ProductList.TakeLast(4))
+                            @foreach (var catalog in Model.CatalogList.TakeLast(4))
                             {
                                 <div class="col-sm">
-                                    <partial name="_ProductItemPartial" model="@product" />
+                                    <partial name="_ProductItemPartial" model="@catalog" />
                                 </div>
-                            }
-                        
+                            }                        
                     </div>
                 </div>
             </div>

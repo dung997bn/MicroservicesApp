@@ -41,7 +41,6 @@ namespace AspnetRunBasics
             {
                 CatalogList = catalogList;
             }
-
             return Page();
         }
 

@@ -23,7 +23,8 @@ namespace AspnetRunBasics.ApiCollection.Implementations
         {
             var message = new HttpRequestBuilder(_settings.BaseAddress)
                            .SetPath(_settings.OrderPath)
-                           .AddQueryString("username", userName)
+                           .AddToPath($"/{userName}")
+                           //.AddQueryString("userName", userName)
                            .HttpMethod(HttpMethod.Get)
                            .GetHttpMessage();
 
